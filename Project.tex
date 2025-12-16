@@ -1,0 +1,193 @@
+% -----------------------------------------------------------------------------
+% Project.tex
+%
+% Example for the CalPolySeniorProject LaTeX class.
+% - Includes: 2 figures, 1 table, and 1 equation (minimum).
+% - No external figure files required: figures use boxed placeholders.
+%
+% Replace the metadata setters and content with your own project material.
+% -----------------------------------------------------------------------------
+
+\documentclass[
+    % Optional margin overrides (defaults match the senior project format).
+    left=1.5in,
+    right=1.25in,
+    top=1.25in,
+    bottom=1.25in
+]{CalPolySeniorProject}
+
+% -----------------------------------------------------------------------------
+% Metadata (fill these in for your report)
+% -----------------------------------------------------------------------------
+\setprojecttitle{Telemetry for Safety-Critical Railway Systems}
+\setauthor{1}{Claude E. Shannon}{claude.shannon@calpoly.edu}
+\setauthor{2}{Edith Clarke}{edith.clarke@calpoly.edu}
+\setprofessor{Dr.\ Gordon E.\ Moore}
+\setclass{EE 600}
+\setdepartment{Electrical Engineering Department}
+\setquarter{Fall 2025}
+
+% Bibliography file for this example.
+\addbibresource{Sources.bib}
+
+\begin{document}
+
+% -----------------------------------------------------------------------------
+% Title page (provided by the class)
+% NOTE: The class expects Images/Logo.pdf to exist.
+% -----------------------------------------------------------------------------
+\maketitlepage
+
+% -----------------------------------------------------------------------------
+% Front matter
+% -----------------------------------------------------------------------------
+\pagenumbering{roman}
+\pagestyle{plain}
+
+\tableofcontents
+
+\clearpage
+\listoffigures
+\addcontentsline{toc}{section}{List of Figures}
+
+\clearpage
+\listoftables
+\addcontentsline{toc}{section}{List of Tables}
+
+% -----------------------------------------------------------------------------
+% Abstract
+% -----------------------------------------------------------------------------
+\section*{Abstract}
+\addcontentsline{toc}{section}{Abstract}
+
+This document demonstrates the CalPolySeniorProject class using anonymized
+metadata and placeholder content themed around electrical engineering. The
+example includes figures, a table, and an equation to verify common report
+features. Replace the text, citations, and placeholders with your real system
+architecture, analysis, and results.
+
+% -----------------------------------------------------------------------------
+% Main matter
+% -----------------------------------------------------------------------------
+\clearpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\section{Introduction}
+
+Electrical engineering designs succeed or fail on constraints: bandwidth,
+power, timing, reliability, and implementation complexity. A good report makes
+those constraints explicit and then shows how each design choice trades one
+resource for another.
+
+This example uses \texttt{biblatex} citations. For instance, Shannon's classic
+result connects capacity, bandwidth, and signal-to-noise ratio (SNR)
+\autocite{shannon1948}.
+
+\section{Background}
+
+In practical wireless links, packet delivery is rarely a step function of
+distance. Instead, there is often a ``transitional region'' where delivery
+smoothly degrades as the receiver moves away from the transmitter
+\autocite{zuniga2004transitional}.
+
+\subsection{A Small, On-Theme Equation}
+
+A common sanity check is whether the required throughput is even plausible.
+The (idealized) Shannon capacity is:
+
+\begin{equation}
+    C = B \log_2\!\left(1 + \mathrm{SNR}\right),
+    \label{eq:shannon_capacity}
+\end{equation}
+
+where \(C\) is channel capacity (bit/s) and \(B\) is bandwidth (Hz).
+
+\section{System Overview}
+
+Figure~\ref{fig:arch} is a placeholder for an architecture diagram. Replace
+the boxed region with a real figure (or keep the box if your reviewers love
+minimalism).
+
+\begin{figure}[!ht]
+    \centering
+    \fbox{%
+        \parbox[c][1.75in][c]{0.90\linewidth}{%
+            \centering
+            \textbf{Placeholder Figure 1: System Architecture Diagram}\par
+            \vspace{0.5em}
+            Replace this box with your real figure (PDF/PNG/JPG).%
+        }%
+    }
+    \caption[Architecture diagram placeholder]{Example architecture diagram
+    placeholder.}
+    \label{fig:arch}
+\end{figure}
+
+\section{Results}
+
+Table~\ref{tab:results} demonstrates a simple results table. Use this pattern
+for simulation sweeps, lab measurements, or performance comparisons.
+
+\begin{table}[!ht]
+    \centering
+    \caption[Example results table]{Example performance summary for three
+    configurations.}
+    \vspace{0.5\baselineskip}
+    \begin{tabular}{lccc}
+        \toprule
+        \textbf{Config} &
+        \textbf{Reliability} &
+        \textbf{Latency [ms]} &
+        \textbf{Energy [mJ]} \\
+        \midrule
+        Baseline & 0.82 & 140 & 9.5 \\
+        Tuned    & 0.93 & 110 & 8.1 \\
+        Robust   & 0.97 & 125 & 9.0 \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:results}
+\end{table}
+
+Figure~\ref{fig:trend} is a placeholder for a results plot. Replace with your
+actual plot export (recommended: PDF for vector quality).
+
+\begin{figure}[!ht]
+    \centering
+    \fbox{%
+        \parbox[c][1.75in][c]{0.90\linewidth}{%
+            \centering
+            \textbf{Placeholder Figure 2: Results Plot}\par
+            \vspace{0.5em}
+            Replace this box with your reliability/latency plot.%
+        }%
+    }
+    \caption[Results plot placeholder]{Example results plot placeholder.}
+    \label{fig:trend}
+\end{figure}
+
+\section{Conclusion}
+
+This example file exists to prove the template is usable for a real report: it
+compiles cleanly, produces a title page, prints a TOC/LOF/LOT, supports
+citations, and includes typical technical elements. Replace the placeholders
+with your system design, assumptions, validation, and final conclusions.
+
+% -----------------------------------------------------------------------------
+% Bibliography
+% -----------------------------------------------------------------------------
+\clearpage
+\section{Works Cited}
+\printbibliography[heading=none]
+
+% -----------------------------------------------------------------------------
+% Appendices
+% -----------------------------------------------------------------------------
+\beginappendices
+
+\appsubsection{Example Appendix}
+
+This appendix entry demonstrates the class appendix helper. Add more appendices
+by calling \verb|\appsubsection{Example}| again.
+
+\end{document}
