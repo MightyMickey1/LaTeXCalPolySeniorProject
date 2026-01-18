@@ -74,13 +74,16 @@ Set up LaTeX in VS Code
 
 Create `main.tex` and start with:
 
+**Authors:** the title page supports **one or two** authors. If you only have one author, set only author **1** and *do not* call `\setauthor{2}{...}{...}`.
+
 ```tex
 \documentclass{CalPolySeniorProject}
 
 % Metadata setters (fill these in)
 \setprojecttitle{Your Title\par Optional Second Line}
 \setauthor{1}{Author One}{author1@school.edu}
-\setauthor{2}{Author Two}{author2@school.edu}
+% Optional second author (omit entirely if you only have one author)
+%\setauthor{2}{Author Two}{author2@school.edu}
 \setprofessor{Dr.\ Your Professor}
 \setclass{EE 4XX}
 \setdepartment{Electrical Engineering Department}
@@ -103,7 +106,7 @@ This class uses `biblatex` with `biber`.
 In the preamble:
 
 ```tex
-\addbibresource{references.bib}
+\addbibresource{Sources.bib}
 ```
 
 In the text:

@@ -384,9 +384,12 @@
         \par\vspace*{0.75em}
 
         % Author block
-        \begin{tabular}{r | l}  % r = right, l = left alignment
-            \authorrow{1}\\ \addlinespace[1em]
-            \authorrow{2}%
+        \begin{tabular}{r | l}
+            \authorrow{1}%
+            \ifcsname author2Name\endcsname
+                \\ \addlinespace[1em]
+                \authorrow{2}%
+            \fi
         \end{tabular}%
 
         \par\vspace{0.75em}%
