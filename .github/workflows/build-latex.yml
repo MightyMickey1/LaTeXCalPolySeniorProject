@@ -1,0 +1,67 @@
+name: Build LaTeX
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    name: Build example PDF
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Compile Project.tex
+        uses: xu-cheng/latex-action@v4
+        with:
+          root_file: Project.tex
+          texlive_version: 2026
+          args: -pdf -synctex=1 -interaction=nonstopmode -halt-on-error -file-line-error -outdir=build
+
+      - name: Install PDF comparison tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ghostscript
+
+      - name: Compare built PDF to golden baseline
+        run: |
+          set -euo pipefail
+
+          mkdir -p /tmp/cpsp-expected /tmp/cpsp-actual
+
+          gs -dSAFER -dBATCH -dNOPAUSE \
+            -sDEVICE=png16m -r150 \
+            -dTextAlphaBits=4 -dGraphicsAlphaBits=4 \
+            -sOutputFile=/tmp/cpsp-expected/page-%03d.png \
+            tests/golden/Project.pdf
+
+          gs -dSAFER -dBATCH -dNOPAUSE \
+            -sDEVICE=png16m -r150 \
+            -dTextAlphaBits=4 -dGraphicsAlphaBits=4 \
+            -sOutputFile=/tmp/cpsp-actual/page-%03d.png \
+            build/Project.pdf
+
+          expected_count="$(find /tmp/cpsp-expected -name 'page-*.png' | wc -l)"
+          actual_count="$(find /tmp/cpsp-actual -name 'page-*.png' | wc -l)"
+
+          if [ "$expected_count" -ne "$actual_count" ]; then
+            echo "Page count changed: expected $expected_count, got $actual_count"
+            exit 1
+          fi
+
+          for expected in /tmp/cpsp-expected/page-*.png; do
+            actual="/tmp/cpsp-actual/$(basename "$expected")"
+            if ! cmp -s "$expected" "$actual"; then
+              echo "Rendered PDF page differs: $(basename "$expected")"
+              exit 1
+            fi
+          done
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Project.pdf
+          path: build/Project.pdf

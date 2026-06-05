@@ -10,6 +10,8 @@
 *.run.xml
 *.synctex.gz
 *.toc
+*.lof
+*.lot
 
 # LaTeX Workshop output dir
 build/

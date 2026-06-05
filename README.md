@@ -1,175 +1,69 @@
 # CalPolySeniorProject LaTeX Template
 
-A reusable LaTeX template for Cal Poly EE senior project reports, packaged as 
-a custom class file:
+A reusable LaTeX format for Cal Poly Electrical Engineering senior project
+reports.
+
+The template is packaged as a custom class file:
 
 - `CalPolySeniorProject.cls`
 
-It also includes a complete example you can compile immediately, then edit into
-your own report.
+It also includes a complete example report that can be compiled immediately and
+then edited into your own project.
 
 ## Folder structure
 
-```
+```text
 .
-├── CalPolySeniorProject.cls      % The class (formatting + helper macros)
-├── Project.tex                   % Example report you can edit into your own
-├── Sources.bib                   % Example BibLaTeX database (biber backend)
-├── Project.pdf                   % Optional: output PDF (generated)
-└── Images/
-    └── Logo.pdf                  % Title page logo (PDF recommended)
+├── CalPolySeniorProject.cls      % The class file
+├── Project.tex                   % Example report
+├── Sources.bib                   % Example BibLaTeX database
+├── Project.pdf                   % Local preview PDF
+├── Images/
+│   └── Logo.pdf                  % Title page logo
+├── tests/
+│   └── golden/Project.pdf        % Visual regression baseline
+└── build/                        % Local build output, ignored by git
 ```
 
-Notes:
-- The `Images/` folder name matters: the class sets `\graphicspath{{Images/}}`.
-- If you use the recommended LaTeX Workshop settings below, you may also see a
-  `build/` folder created automatically for intermediate files.
+The class sets `\graphicspath{{Images/}}`, and the title page expects
+`Images/Logo.pdf` to exist.
 
 ## Install LaTeX
 
-Install a LaTeX distribution if not already installed:
+For macOS, install MacTeX. It includes the tools used by this template:
 
-- **macOS (recommended):** Install **MacTeX** (full TeX Live for Mac).
-  Make sure `latexmk` and `biber` are available (MacTeX includes both).
-- **Windows:** Install **MiKTeX** or **TeX Live**.
-  If you use MiKTeX, enable on-the-fly package installs (or preinstall).
-- **Linux:** Install **TeX Live** via your package manager.
-  You’ll also want `latexmk` and `biber` (often separate packages).
-
-## Set Up LaTeX in VS Code
-
-Set up LaTeX in VS Code 
-
-1. **Install LaTeX Workshop**
-   - Open **Extensions** → search **LaTeX Workshop** → **Install**.
-
-2. **Optional: grammar + spellcheck (recommended)**
-   - Install **LTeX+ — grammar/spell checking using LanguageTool**.
-
-3. **Open the template**
-   - `File → Open Folder…` → choose the repo folder (contains `Project.tex`).
-
-4. **Build + view (your workflow)**
-   - Open `Project.tex`.
-   - Click the green **Build** arrow (LaTeX Workshop).
-   - Click the **PDF viewer** icon to open the PDF (SyncTeX works).
-
-5. **Optional: apply the recommended build settings**
-   - Command Palette → **Preferences: Open User Settings (JSON)**.
-   - Paste the LaTeX Workshop settings from this README to:
-     - build on save
-     - put aux files in `./build`
-     - copy the final PDF to the repo root
-
-## Using the template
-
-### Option A: Start from the example (recommended)
-
-1. Open this folder in VS Code.
-2. Open `Project.tex`.
-3. Build (LaTeX Workshop “play” button).
-4. Replace the placeholder content with your report.
-
-### Option B: Create your own report from scratch
-
-Create `main.tex` and start with:
-
-**Authors:** the title page supports **one or two** authors. If you only have one author, set only author **1** and *do not* call `\setauthor{2}{...}{...}`.
-
-```tex
-\documentclass{CalPolySeniorProject}
-
-% Metadata setters (fill these in)
-\setprojecttitle{Your Title\par Optional Second Line}
-\setauthor{1}{Author One}{author1@school.edu}
-% Optional second author (omit entirely if you only have one author)
-%\setauthor{2}{Author Two}{author2@school.edu}
-\setprofessor{Dr.\ Your Professor}
-\setclass{EE 4XX}
-\setdepartment{Electrical Engineering Department}
-\setquarter{Fall 2025}
-
-% Bibliography file
-\addbibresource{Sources.bib}
-
-\begin{document}
-\maketitlepage
-% ... your content ...
-\printbibliography
-\end{document}
+```sh
+latexmk --version
+biber --version
 ```
 
-## Add citations
+Windows users can use MiKTeX or TeX Live. Linux users can install TeX Live from
+their package manager, including `latexmk` and `biber`.
 
-This class uses `biblatex` with `biber`.
+## VS Code workflow
 
-In the preamble:
+This repo is intended to work well with a VS Code writing setup:
 
-```tex
-\addbibresource{Sources.bib}
-```
+- LaTeX Workshop for building and viewing the PDF.
+- LTeX+ for grammar and spell checking.
+- Zotero with Better BibTeX, or another BibLaTeX export workflow, for managing
+  `Sources.bib`.
 
-In the text:
+Recommended setup:
 
-```tex
-Cite like this \autocite{somekey}.
-```
+1. Open this repo folder in VS Code.
+2. Install the LaTeX Workshop extension.
+3. Install the LTeX+ extension.
+4. Open `Project.tex`.
+5. Build with the LaTeX Workshop green build button.
+6. Use the built-in PDF viewer from LaTeX Workshop.
 
-Where you want the bibliography:
+### LaTeX Workshop settings
 
-```tex
-\printbibliography
-```
+These settings build into `build/` and copy the final PDF back to the repo
+root, matching the local macOS workflow used for this template.
 
-## Figures and tables
-
-- Put images in `Images/` (PDF preferred for plots/diagrams).
-- Include them with `\includegraphics` (the class already loads `graphicx`).
-
-The example file includes two figure environments and a table to demonstrate
-standard formatting.
-
-## Appendices
-
-To start appendices:
-
-```tex
-\beginappendices
-```
-
-For each appendix entry:
-
-```tex
-\appsubsection{Title of Appendix}
-```
-
-If you ever need to return to normal subsection numbering afterward:
-
-```tex
-\stopappendices
-```
-
-## Margin overrides (optional)
-
-The class supports margin overrides at `\documentclass` time:
-
-```tex
-\documentclass[
-    left=1.5in,
-    right=1.25in,
-    top=1.25in,
-    bottom=1.25in
-]{CalPolySeniorProject}
-```
-
-If you omit these options, the class defaults are used.
-
-## Recommended VS Code LaTeX Workshop settings
-
-These settings keep your project tidy by putting intermediate/aux files in a
-`build/` folder and copying the final PDF back to the repo root.
-
-Open VSCode settings JSON and add:
+Open VS Code settings JSON and add:
 
 ```json
 {
@@ -178,7 +72,7 @@ Open VSCode settings JSON and add:
 
     "latex-workshop.latex.tools": [
         {
-            "name": "latexmk → build/",
+            "name": "latexmk to build/",
             "command": "latexmk",
             "args": [
                 "-pdf",
@@ -208,7 +102,7 @@ Open VSCode settings JSON and add:
     "latex-workshop.latex.recipes": [
         {
             "name": "Build to build/ + copy PDF",
-            "tools": ["latexmk → build/", "copy pdf to root (zsh)"]
+            "tools": ["latexmk to build/", "copy pdf to root (zsh)"]
         },
         {
             "name": "Clean build/",
@@ -220,37 +114,162 @@ Open VSCode settings JSON and add:
 
     "latex-workshop.latex.clean.fileTypes": [
         "*.aux", "*.bbl", "*.blg", "*.fdb_latexmk", "*.fls",
-        "*.log", "*.out", "*.run.xml", "*.bcf", "*.synctex.gz", "*.toc"
+        "*.log", "*.out", "*.run.xml", "*.bcf", "*.synctex.gz",
+        "*.toc", "*.lof", "*.lot"
     ]
 }
 ```
 
+## Command-line build
+
+The VS Code recipe runs the same build process as this command:
+
+```sh
+latexmk -pdf -synctex=1 -interaction=nonstopmode -file-line-error \
+    -outdir=build Project.tex
+```
+
+To clean generated files:
+
+```sh
+latexmk -C -outdir=build Project.tex
+```
+
+## Build verification
+
+GitHub Actions builds `Project.tex`, uploads the generated PDF, and renders both
+`tests/golden/Project.pdf` and the fresh `build/Project.pdf` to compare their
+pages.
+
+The root `Project.pdf` is a convenient local preview. Your VS Code workflow may
+overwrite it after each build. The golden PDF is the stable visual regression
+baseline. If the class or example intentionally changes the expected output,
+regenerate and commit both `Project.pdf` and `tests/golden/Project.pdf`.
+
+## Using the template
+
+The fastest path is to edit `Project.tex` directly.
+
+To start a new file, use:
+
+```tex
+\documentclass{CalPolySeniorProject}
+
+\setprojecttitle{Your Title\par Optional Second Line}
+\setauthor{1}{Author One}{author1@calpoly.edu}
+\setauthor{2}{Author Two}{author2@calpoly.edu}
+\setprofessor{Dr.\ Your Professor}
+\setclass{EE 600}
+\setdepartment{Electrical Engineering Department}
+\setquarter{Fall 2025}
+
+\addbibresource{Sources.bib}
+
+\begin{document}
+\maketitlepage
+
+% Front matter and report content go here.
+
+\printbibliography
+\end{document}
+```
+
+Authors should be numbered contiguously starting at 1. For one author, only set
+author 1. For three authors, set authors 1, 2, and 3.
+
+## Citations with Zotero
+
+The class uses `biblatex` with the `biber` backend and IEEE-style references.
+
+Recommended Zotero workflow:
+
+1. Install Zotero.
+2. Install the Better BibTeX plugin for Zotero.
+3. Export your project collection as BibLaTeX to `Sources.bib`.
+4. Keep citation keys stable so existing `\autocite{...}` commands do not
+   break.
+5. Rebuild with LaTeX Workshop or `latexmk`; `biber` is run automatically.
+
+In the preamble:
+
+```tex
+\addbibresource{Sources.bib}
+```
+
+In the text:
+
+```tex
+Cite like this \autocite{shannon1948}.
+```
+
+Where you want the bibliography:
+
+```tex
+\printbibliography
+```
+
+## Figures and tables
+
+- Put report images in `Images/`.
+- Prefer PDF for plots and diagrams when possible.
+- Use `\includegraphics`; the class already loads `graphicx`.
+- The example includes two figures and one table to show the expected format.
+
+## Appendices
+
+Start appendices with:
+
+```tex
+\beginappendices
+```
+
+Add each appendix entry with:
+
+```tex
+\appsubsection{Title of Appendix}
+```
+
+If the document returns to normal subsection numbering after appendices, use:
+
+```tex
+\stopappendices
+```
+
+## Margin overrides
+
+The class supports margin overrides at `\documentclass` time:
+
+```tex
+\documentclass[
+    left=1.5in,
+    right=1.25in,
+    top=1.25in,
+    bottom=1.25in
+]{CalPolySeniorProject}
+```
+
+If these options are omitted, the class defaults are used.
+
 ## Troubleshooting
 
-### “Undefined control sequence … \addlinespace”
-The class/example uses `\addlinespace` for nicer spacing in tables, which comes
-from `booktabs`. Make sure `booktabs` is still being loaded by the class.
+### Citations show as question marks
 
-### Citations show as [??] / bibliography is empty
-This template uses `biblatex` with `biber`.
+Make sure `biber` is installed and that `Sources.bib` contains valid BibLaTeX
+entries. Then rebuild with LaTeX Workshop or run `latexmk` again.
 
-- Make sure `biber` is installed (MacTeX includes it).
-- Rebuild twice (LaTeX needs multiple passes).
-- Confirm the `.bib` filename in `\addbibresource{...}` matches your file.
+### The title page logo is missing
 
-### Title page logo missing
-If you see a “file not found” error for `Images/Logo.pdf`, either:
-- Add a `Logo.pdf` to `Images/`, or
-- Temporarily comment out the `\includegraphics` line in the class.
+Confirm `Images/Logo.pdf` exists and that the filename matches exactly.
 
-### PDF builds, but VS Code shows stale output
-If you’re writing output to `build/`, make sure your recipe copies the PDF back
-to the root (see the settings above), or open the PDF from `build/` directly.
+### VS Code shows stale PDF output
 
-### If the build gets cursed
-- Run **LaTeX Workshop: Clean up auxiliary files**
-- Delete the `build/` folder (if you’re using one)
-- Build again (green arrow)
-- If VS Code still shows stale output, open the PDF from `build/` directly, or
-  use the “copy PDF to repo root” recipe so the viewer always opens the newest
-  file.
+Use the recommended LaTeX Workshop recipe so the PDF is built in `build/` and
+copied back to the repo root. You can also open `build/Project.pdf` directly.
+
+### Local build output is cluttering the repo
+
+Run LaTeX Workshop cleanup or:
+
+```sh
+latexmk -C -outdir=build Project.tex
+```

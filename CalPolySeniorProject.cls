@@ -1,16 +1,10 @@
-\ProvidesClass{CalPolySeniorProject}[2025/12/12
-    Cal Poly EE 415 report class]
+\ProvidesClass{CalPolySeniorProject}[2026/06/05 v0.1.0
+    Cal Poly EE senior project report class]
 
 % --------------------------------------------------
 % Base class
 % --------------------------------------------------
 \LoadClass[12pt,letterpaper]{report}
-
-% --------------------------------------------------
-% Packages
-% --------------------------------------------------
-% NOTE: In a .cls file, use \RequirePackage (not \usepackage).
-% Keep lines <= 80 columns and load hyperref last.
 
 % --------------------------------------------------
 % Packages
@@ -74,9 +68,6 @@
 % --- Hyperlinks (keep this last) ---
 \RequirePackage[hidelinks]{hyperref} % clickable refs w/o colored boxes
 
-% --- Hyperlinks (keep this last) ---
-\RequirePackage[hidelinks]{hyperref} % clickable refs w/o colored boxes
-
 % --------------------------------------------------
 % ---------- Metadata setters (user-facing API) -----
 % --------------------------------------------------
@@ -89,9 +80,13 @@
 % #1 = index (1, 2, 3, ...)
 % #2 = full name
 % #3 = email address
+\newcounter{cpsp@authorcount}
 \newcommand{\setauthor}[3]{%
     \expandafter\def\csname author#1Name\endcsname{#2}%
     \expandafter\def\csname author#1Email\endcsname{\texttt{#3}}%
+    \ifnum#1>\value{cpsp@authorcount}%
+        \setcounter{cpsp@authorcount}{#1}%
+    \fi
 }
 
 % Professor Line
@@ -241,12 +236,10 @@
 \newif\ifinappendix
 \inappendixfalse
 
-% Save original subsection TOC behavior so we can restore it.
-\let\orig@l@subsection\l@subsection
-
 % Save original subsection numbering for restoration when leaving appendices.
 \let\cpsp@orig@thesubsection\thesubsection
 \let\cpsp@orig@p@subsection\p@subsection
+\let\cpsp@orig@theHsubsection\theHsubsection
 
 % Enter "appendix mode":
 %   - switch subsection numbering to letters (A, B, C, ...)
@@ -257,6 +250,7 @@
     \setcounter{subsection}{0}%
     \renewcommand{\thesubsection}{\Alph{subsection}}%
     \renewcommand{\p@subsection}{Appendix~}%
+    \renewcommand{\theHsubsection}{appendix.\Alph{subsection}}%
 }
 
 % Leave "appendix mode" (only needed if you return to normal sections later).
@@ -264,6 +258,7 @@
     \inappendixfalse
     \renewcommand{\thesubsection}{\cpsp@orig@thesubsection}%
     \renewcommand{\p@subsection}{\cpsp@orig@p@subsection}%
+    \renewcommand{\theHsubsection}{\cpsp@orig@theHsubsection}%
 }
 
 % Patch \appendix so it automatically enables appendix behavior.
@@ -272,18 +267,6 @@
 \renewcommand{\appendix}{%
     \cpsp@orig@appendix
     \cpsp@enterappendix
-}
-
-% Custom TOC line for appendix subsections.
-% NOTE:
-%   - We ignore the default "number width" from tocloft and print a stable
-%     "Appendix A." label ourselves for consistent alignment.
-\renewcommand{\l@subsection}[2]{%
-    \ifinappendix
-        \@dottedtocline{2}{4em}{7em}{Appendix~\Alph{subsection}.}{#2}%
-    \else
-        \orig@l@subsection{#1}{#2}%
-    \fi
 }
 
 % Custom appendix subsection for formatting TOC + heading.
@@ -327,7 +310,6 @@
 % --------------------------------------------------
 % Override the "plain" page style (used for chapter/section starts)
 % to put the page number in the upper-right and remove rules.
-\RequirePackage{fancyhdr}
 \fancypagestyle{plain}{%
     \fancyhf{}  % clear existing headers and footers
     \fancyhead[R]{%
@@ -366,12 +348,26 @@
     \csname author#1Email\endcsname
 }
 
+\makeatletter
+\newcommand{\cpspextraauthorrows}{%
+    \@tempcnta=3
+    \@whilenum\@tempcnta<\numexpr\value{cpsp@authorcount}+1\relax\do{%
+        \ifcsname author\the\@tempcnta Name\endcsname
+            \\ \addlinespace[1em]%
+            \authorrow{\the\@tempcnta}%
+        \fi
+        \advance\@tempcnta by 1
+    }%
+}
+\makeatother
+
 % --------------------------------------------------
 % Custom title page macro
 % --------------------------------------------------
 % This macro prints the full formatted title page using all of the
 % metadata set via \setprojecttitle, \setauthor, \setprofessor, etc.
 \newcommand{\maketitlepage}{%
+    \hypersetup{pageanchor=false}%
     \begin{titlepage}
         \centering
         % \vspace*{1em}  % uncomment to push content further down
@@ -390,6 +386,7 @@
                 \\ \addlinespace[1em]
                 \authorrow{2}%
             \fi
+            \cpspextraauthorrows
         \end{tabular}%
 
         \par\vspace{0.75em}%
@@ -416,6 +413,7 @@
 
         \vfill
     \end{titlepage}%
+    \hypersetup{pageanchor=true}%
 }
 
 % --------------------------------------------------
