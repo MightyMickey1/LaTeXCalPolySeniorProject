@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Compile Project.tex
         uses: xu-cheng/latex-action@v4
@@ -61,7 +61,7 @@ jobs:
           done
 
       - name: Upload PDF artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: Project.pdf
           path: build/Project.pdf
