@@ -271,7 +271,7 @@ RF propagation simulation allows network designers to model signal coverage befo
 
 The tool used in this project is eino.ai, a cloud-native, GPU-accelerated RF simulation platform [8]. eino.ai uses ray-tracing algorithms against high-resolution terrain data, including LiDAR elevation models, to compute RSRP coverage maps across a defined simulation area. The output is a georeferenced RSRP heatmap that can be exported as a KMZ file and layered over satellite or topographic base maps in Google Earth.
 
-What makes eino.ai notable in this context is not just what it does, but what it costs relative to its predecessors. Ten years ago, ray-tracing RF simulation capable of the fidelity eino.ai provides required a dedicated workstation running specialized thick-client software that cost on the order of 50,000 dollars. That kind of tool was available only to large telecom engineering firms and carriers. Today, eino.ai delivers equivalent capability through a web browser for approximately 1,000 dollars. The shift from dedicated workstation to cloud platform, enabled by GPU compute becoming widely available through cloud providers, has put professional-grade propagation simulation within reach of a university project.
+What makes eino.ai notable in this context is the cost relative to its predecessors. Ten years ago, ray-tracing RF simulation capable of the fidelity eino.ai provides required a dedicated workstation running specialized thick-client software that cost on the order of 50,000 dollars. That kind of tool was available only to large telecom engineering firms and carriers. Today, eino.ai delivers equivalent capability through a web browser for approximately 1,000 dollars. The shift from dedicated workstation to cloud platform, enabled by GPU compute becoming widely available through cloud providers, has put professional-grade propagation simulation within reach of a university project.
 
 This cost compression in simulation tools mirrors the cost compression in hardware and spectrum access described in Section I.A. The same structural shift that brought the eNodeB hardware cost from hundreds of thousands of dollars to thousands, and spectrum access from hundreds of millions to zero, has brought simulation tools from tens of thousands of dollars to thousands. All three components are now accessible to the same class of user: an organization with a small budget, technical staff who understand the tools, and a genuine need for the capability.
 
@@ -281,9 +281,9 @@ This cost compression in simulation tools mirrors the cost compression in hardwa
 
 ### III.A Project Goals and Constraints
 
-The primary goal of this project was to demonstrate a working private LTE network at Swanton Pacific Ranch and to document the complete system in sufficient detail that future student teams can build directly on the work. This framing deliberately prioritized completeness and documentation over optimization. A polished but poorly documented deployment would leave the next group starting over.
+The primary goal of this project was to demonstrate a working private LTE network at Swanton Pacific Ranch and to document the complete system in sufficient detail that future student teams can build directly on the work. This framing deliberately prioritized completeness and documentation over optimization. A polished but poorly documented deployment would leave the next group starting over from the beginning.
 
-Several constraints shaped the design space. The deployment site is accessible only by driving to the ranch, which limits the complexity of hardware that can be transported and assembled by a small team without heavy equipment. Power at Cooke's Peak is currently limited to a solar panel supporting the UHF repeater; additional infrastructure was not available for the initial deployment, which meant relying on portable power. The budget was constrained to approximately 5,000 dollars for hardware not provided by donors. Standard phone compatibility was a firm requirement, both for the initial testing and for the eventual ranch user base: the network needed to work with off-the-shelf Android and iOS devices without custom firmware or specialized hardware. Finally, the deployment approach needed to be temporary and reversible, since no structural modification to the site was authorized for this initial phase.
+Several constraints influenced the final design. The deployment site is accessible only by driving to the ranch, which limits the complexity of hardware that can be transported and assembled by a small team without heavy equipment. Power at Cooke's Peak is currently limited to a solar panel supporting the UHF repeater; additional infrastructure was not available for the initial deployment, which meant relying on a portable battery bank for power. The budget was constrained to 500 dollars for hardware not provided by donors. Standard phone compatibility was a firm requirement, both for the initial testing and for the eventual ranch user base; the network needed to work with off-the-shelf Android and iOS devices without custom firmware or specialized hardware. Finally, the deployment approach needed to be temporary and reversible, since no structural modification to the site was authorized for this initial phase.
 
 ### III.B Marketing Requirements
 
@@ -300,14 +300,14 @@ Figure 2 shows the marketing requirements hierarchy tree. Table I shows the pair
 
 | Requirement | Reliability | Throughput | Coverage | Power | Durability | Impact | Weight |
 |-------------|-------------|------------|----------|-------|------------|--------|--------|
-| Reliability | — | 1 | 1 | 1 | 1 | 1 | 5 |
-| Throughput | 0 | — | 1 | 1 | 1 | 1 | 4 |
-| Coverage | 0 | 0 | — | 1 | 1 | 1 | 3 |
-| Power | 0 | 0 | 0 | — | 1 | 1 | 2 |
-| Durability | 0 | 0 | 0 | 0 | — | 1 | 1 |
-| Impact | 0 | 0 | 0 | 0 | 0 | — | 0 |
+| Reliability | — | 3.0 | 3.0 | 0.5 | 2.0 | 5.0 | 0.270 |
+| Throughput | 0.3 | — | 3.0 | 0.5 | 3.0 | 3.0 | 0.184 |
+| Coverage | 0.3 | 0.3 | — | 0.5 | 1.0 | 2.0 | 0.099 |
+| Power | 2.0 | 2.0 | 2.0 | — | 3.0 | 3.0 | 0.292 |
+| Durability | 0.5 | 0.3 | 1.0 | 0.3 | — | 1.0 | 0.088 |
+| Impact | 0.2 | 0.2 | 0.5 | 0.3 | 1.0 | — | 0.068 |
 
-*Note: A value of 1 means the row requirement outweighs the column requirement in pairwise comparison. Weight is the sum of each row.*
+*Note: A value of 1 means the row requirement has the same weight as the column requirement in pairwise comparison. Weight is the relative weight of each need compared to all others.*
 
 ### III.C Engineering Specifications
 
@@ -323,11 +323,11 @@ The engineering specifications translate the marketing requirements into measura
 | Download throughput | Greater than 10 Mbps | Supports HD video and concurrent data |
 | Signal-to-noise ratio | Greater than 30 dB | Clean signal for maximum MCS utilization |
 | Coverage radius | Greater than 1 km from deployment site | Ranch working area access |
-| End-node power draw | Less than 6 W per IoT node | Solar operable without large battery |
+| End-node power draw | Less than 100 W per IoT node | Solar operable without large battery |
 | Weatherproofing (radio) | IP65 minimum | Coastal salt air, rain, fog |
-| Service life | Greater than 5 years | Permanent installation durability |
+| Service life | Greater than 10 years | Permanent installation durability |
 | Environmental impact | No permanent structure for initial deployment | Ranch land use compatibility |
-| Total system cost | Less than 5,000 dollars | University project budget |
+| Total system cost | Less than 500 dollars for non-donated equipment | University project budget |
 
 ---
 
@@ -371,7 +371,7 @@ Several other wireless technologies were considered and set aside at the start o
 
 LoRaWAN provides very long range at very low data rates, suitable for periodic sensor readings but not for video, voice, or general-purpose data. Its bandwidth is orders of magnitude below what the ranch needs. LoRaWAN remains interesting as a secondary backup layer for low-data-rate sensors during CBRS preemption events, but it cannot serve as the primary connectivity solution.
 
-WiFi HaLow (802.11ah) offers longer range than standard Wi-Fi at sub-GHz frequencies. During the initial research phase, the team considered a mesh network using 802.11ah access points. The critical limitation is device compatibility: standard smartphones and IoT devices do not include 802.11ah hardware. Every device on the network would require custom hardware, eliminating the "standard phones work" requirement.
+Wi-Fi HaLow (802.11ah) offers longer range than standard Wi-Fi at sub-GHz frequencies. During the initial research phase, the team considered a mesh network using 802.11ah access points. The critical limitation is device compatibility: standard smartphones and IoT devices do not include 802.11ah hardware. Every device on the network would require custom hardware, eliminating the "standard phones work" requirement.
 
 AREDN mesh networking operates in amateur radio bands and provides flexible ad-hoc connectivity, but it requires all operators to hold amateur radio licenses and prohibits encryption of user traffic. Both of these constraints are incompatible with a network intended for use by general ranch staff and students.
 
@@ -395,7 +395,7 @@ At the backhaul layer, a Starlink terminal at the deployment site provides inter
 
 The transmit power of the Nova 846 is 10 W per transmit channel. With four active ports in 4T4R configuration, the total radiated power is 40 W, or 46 dBm [5]. This power level is appropriate for an outdoor macro deployment and falls within the allowed transmit power for GAA CBRS operation.
 
-The AW3376-E-F is an 8-port beamformer panel antenna covering 3,400 to 3,800 MHz, which spans the full CBRS band and CBRS-adjacent bands [4]. Its key specifications for this deployment are:
+The AW3376-E-F is an 8-port beamforming panel antenna covering 3,400 to 3,800 MHz, which spans the full CBRS band and CBRS-adjacent bands [4]. Its key specifications for this deployment are:
 
 - Peak gain: 15.5 dBi (standard broadcast beam)
 - Azimuth beamwidth: 90 degrees
@@ -403,9 +403,9 @@ The AW3376-E-F is an 8-port beamformer panel antenna covering 3,400 to 3,800 MHz
 - Compatible bands: 3GPP bands 42, 43, and 48; 5G NR n48 and n78
 - Port count: 8 (supports 8T8R, used here in 4T4R mode)
 
-The antenna was selected from the Lawrence Berkeley National Laboratory donation and represents hardware well above what the project budget would have permitted independently. The street value of the AW3376-E-F is [FILL IN: approximate current retail price from alphawireless.com].
+The antenna was selected from the Lawrence Berkeley National Laboratory donation and represents hardware well above what the project budget would have permitted independently. MSRP for the AW3376-E-F is about 1,700 dollars.
 
-The 4T4R configuration connects ANT ports 0 through 3 on the Nova 846 to the four lower ports of the AW3376-E-F. According to the Nova 846 installation guide, single-carrier mode uses only ANT0 through ANT3, and ANT4 through ANT7 are reserved for Cell 2 in dual-carrier configurations [5]. The remaining four antenna ports were left unconnected, as unloaded transmit ports on an active PA would risk damaging the power amplifier.
+The 4T4R configuration connects ANT ports 0 through 3 on the Nova 846 to the four lower ports of the AW3376-E-F. According to the Nova 846 installation guide, single-carrier mode uses only ANT0 through ANT3, and ANT4 through ANT7 are reserved for Cell 2 in dual-carrier configurations [5]. The remaining four antenna ports were left unconnected and unpowered, as unloaded transmit ports on an active PA would risk damaging the power amplifier.
 
 The sector was aimed at 120 degrees azimuth, pointing SSE (south-southeast) toward the main ranch valley and the coastal corridor where activity is concentrated. Cooke's Peak provides a natural elevation advantage: at 243 m above sea level, the radio placement is well above the valley floor, maximizing line-of-sight coverage area. The antenna was mounted at 15 ft (4.6 m) above ground on a portable tripod mast.
 
@@ -425,9 +425,9 @@ First, the simulation area was defined by drawing a bounding polygon over the Sw
 
 Second, the access point was placed at Cooke's Peak at coordinates -122.2376 degrees longitude, 37.0650 degrees latitude, 243 m elevation. eino.ai uses the actual terrain elevation at the placed point, so the height above ground parameter represents antenna clearance above the immediate terrain surface, not elevation above sea level. The antenna was configured at 15 ft (4.6 m) above the terrain surface at the placement point.
 
-Third, the carrier was configured as LTE CBRS Band 48 (3550 MHz center frequency in eino), 20 MHz bandwidth, 4x4 MIMO, 64-QAM modulation.
+Third, the carrier was configured as LTE CBRS Band 48 (3550 MHz center frequency in Eino), 20 MHz bandwidth, 4x4 MIMO, 64-QAM modulation.
 
-Fourth, the sector was configured with a 120-degree azimuth heading. The TX power entered in eino was 46 dBm, matching the actual deployment transmit power.
+Fourth, the sector was configured with a 120-degree azimuth heading. The TX power entered in Eino was 46 dBm, matching the actual deployment transmit power.
 
 Fifth, the antenna model was selected. The AW3376-E-F is not in eino.ai's antenna library. The closest available model was the KP Performance KPPA-3GHZ0P905-45, a 90-degree azimuth CBRS sector antenna. The KP Performance model has a rated gain of 16.5 dBi, compared to the AW3376-E-F's 15.5 dBi. This 1 dB difference makes the simulation marginally optimistic, a systematic overestimation acknowledged in the results comparison in Section VII.C.
 
@@ -524,7 +524,7 @@ Table IV shows the FMEA for key system components.
 |-----------|-------------|--------|----------|-------------|------------|
 | eNodeB (radio) | Physical damage from wind/weather | Loss of network | High | Low | Secure mounting, weatherproof enclosure in permanent installation |
 | eNodeB (radio) | Power supply instability | Radio reset, service interruption | High | Medium | Regulated/conditioned power supply; verified during this deployment |
-| eNodeB (radio) | Overtemperature | Thermal throttle or shutdown | Medium | Low | Temperature-rated hardware; adequate ventilation |
+| eNodeB (radio) | Overheating | Thermal throttle or shutdown | Medium | Low | Temperature-rated hardware; adequate ventilation |
 | Antenna | Cable disconnection | Loss of transmit/receive | High | Medium | Secure weatherproof connectors, verify connections at installation |
 | Antenna | Physical damage | Reduced gain, distorted pattern | Medium | Low | Secure mounting; IP65+ hardware |
 | Open5GS (core) | Software crash or misconfiguration | Authentication failure, no attach | High | Low | Docker restart policy; configuration backup |
@@ -549,7 +549,7 @@ Figure 7 shows the lab bench setup used during development, with the Nova 430i, 
 
 **Physical assembly process:**
 
-The tripod mast was set up at Cooke's Peak and secured. The AW3376-E-F antenna was attached to the mast head, oriented with the face pointing 120 degrees azimuth (SSE). The Nova 846 was secured to the mast below the antenna. RF cables were connected from the radio's ANT0, ANT1, ANT2, and ANT3 ports to the antenna. ANT4 through ANT7 were left unconnected, consistent with single-carrier mode operation as documented in the Nova 846 installation guide [5]. The guide explicitly states that dual-carrier mode requires ANT4 through ANT7, and that only ANT0 through ANT3 are active in single-carrier mode. Leaving transmit ports unconnected while the PA is active would risk damaging the power amplifier, so this connection discipline is important.
+The tripod mast was set up at Cooke's Peak and secured. The AW3376-E-F antenna was attached to the mast head, oriented with the face pointing 120 degrees azimuth (SSE). The Nova 846 was secured to the mast below the antenna. RF cables were connected from the radio's ANT0, ANT1, ANT2, and ANT3 ports to the antenna. ANT4 through ANT7 were left unconnected, consistent with single-carrier mode operation as documented in the Nova 846 installation guide [5]. The guide explicitly states that dual-carrier mode requires ANT4 through ANT7, and that only ANT0 through ANT3 are active in single-carrier mode. Leaving active transmit ports unconnected while the PA is active would risk damaging the power amplifier, so this connection discipline is important.
 
 The GPS antenna was connected and oriented for sky view. The Intel NUC and private router were co-located at the deployment site, connected via Ethernet. The Starlink dish was positioned separately at a location with clear sky view and connected to the router's WAN port.
 
@@ -564,7 +564,7 @@ Before enabling RF at any point during development or deployment, the team follo
 7. MME connected and showing active status
 8. RF status set to OFF until all above confirmed
 
-During lab testing with dummy loads, this checklist prevented transmitting into unloaded ports. During the Swanton deployment, it ensured GPS was synchronized and the core was confirmed running before any RF was enabled.
+During lab testing with dummy loads, this checklist prevented transmitting into unloaded ports. During the Swanton deployment, it ensured GPS was synchronized and that the core was confirmed running before any RF was enabled.
 
 ### VI.B Software Setup: Open5G2GO and Open5GS
 
@@ -1010,7 +1010,7 @@ The 5-year service life specification reflects the expectation that the permanen
 | Item | Description | Source | Street Value |
 |------|-------------|--------|-------------|
 | Baicells Nova 846 | Outdoor macro eNodeB, 8T8R, dual-carrier, Band 48 | Donated by Lawrence Berkeley National Laboratory | [FILL IN: current street value from baicells.com] |
-| Alpha Wireless AW3376-E-F | 8-port sector antenna, Band 48, 15.5 dBi, 90° | Donated by Lawrence Berkeley National Laboratory | [FILL IN: current street value from alphawireless.com] |
+| Alpha Wireless AW3376-E-F | 8-port sector antenna, Band 48, 15.5 dBi, 90° | Donated by Lawrence Berkeley National Laboratory | $1,698.06 |
 | Baicells Nova 430i | Indoor eNodeB, Band 48, used for lab validation | Purchased | [FILL IN: price paid or current street value] |
 | Intel NUC | Small form factor PC, Ubuntu Server 22.04 host | Purchased | [FILL IN: model and price] |
 | Gialer SIM programming kit | USB SIM writer + GRSIMWrite software | Purchased | [FILL IN: price] |
