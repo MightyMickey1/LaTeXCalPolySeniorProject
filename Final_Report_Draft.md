@@ -713,16 +713,16 @@ PHONE-10 connected with IP 10.48.99.10
 
 ### VI.F Power System
 
-The total system power draw during active operation was approximately 60 to 70 W, based on estimates for the 4T4R transmit configuration [meeting notes]. This figure accounts for the radio PA and baseband processing but does not include the NUC, router, or Starlink terminal.
+The radio's power draw during active operation peaked at approximately 70 W, measured on a power meter in between the battery and radio. This figure accounts for the radio PA and baseband processing but does not include the NUC, router, or Starlink terminal.
 
 The breakdown by component:
-- Nova 846 (4T4R): 4 transmit channels x 10 W per channel = 40 W RF output power, plus baseband processing overhead
+- Nova 846 (4T4R): 4 transmit channels x 10 W per channel = 40 W RF output power, plus baseband processing overhead. Total 60 to 70 W
 - Intel NUC: approximately 15 to 25 W under moderate load
 - Private router: approximately 5 to 10 W
 - Starlink terminal: approximately 50 to 75 W (varies with dish generation)
-- Total system: [FILL IN: verify measured power draw from deployment day, if available]
+- Total system: Peaks at 105 W, averages to 92.5 W (not including Starlink terminal since it won't be the main Internet backhaul)
 
-**Deployment day power source:** [FILL IN: what powered the radio, NUC, and Starlink on May 2 at Cooke's Peak? Generator? Vehicle power? A portable battery bank? Confirm and describe.]
+**Deployment day power source:** On May 2, the radio and Starlink terminal were powered by the battery system on a travel trailer, while the NUC and router were powered by a smaller portable battery bank.
 
 For a permanent installation, the power system design would center on a solar array, battery bank, and MPPT (Maximum Power Point Tracking) charge controller sized for the full system load plus margin for coastal overcast days. A 200 W solar panel array with a 100 Ah lithium battery bank would provide continuous operation through several consecutive cloudy days at the estimated system load. This design is well within the technology available today at reasonable cost, as solar-powered small-cell deployments are routine in rural connectivity applications.
 
