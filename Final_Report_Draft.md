@@ -724,9 +724,9 @@ The breakdown by component:
 
 **Deployment day power source:** On May 2, the radio and Starlink terminal were powered by the battery system on a travel trailer, while the NUC and router were powered by a smaller portable battery bank.
 
-For a permanent installation, the power system design would center on a solar array, battery bank, and MPPT (Maximum Power Point Tracking) charge controller sized for the full system load plus margin for coastal overcast days. A 200 W solar panel array with a 100 Ah lithium battery bank would provide continuous operation through several consecutive cloudy days at the estimated system load. This design is well within the technology available today at reasonable cost, as solar-powered small-cell deployments are routine in rural connectivity applications.
+For a permanent installation, the power system design would center on a solar array, battery bank, and Maximum Power Point Tracking (MPPT) charge controller sized for the full system load plus margin for coastal overcast days. A 200 W solar panel array with a 100 Ah lithium battery bank would provide continuous operation through several consecutive cloudy days at the estimated system load. This design is well within the technology available today at reasonable cost, as solar-powered small-cell deployments are routine in rural connectivity applications.
 
-The power efficiency of the Nova 846 relative to legacy macro cellular infrastructure is worth noting. A traditional macro base station delivering comparable coverage would require several hundred watts of transmit power. The Nova 846 achieves kilosquare-kilometer-scale coverage at 40 W of radiated power. This efficiency, driven by improvements in PA design and the shift to higher-gain antennas at 3.5 GHz, makes solar-powered operation at a remote site feasible in a way it would not have been with previous-generation hardware.
+The power efficiency of the Nova 846 relative to legacy macro cellular infrastructure is worth noting. A traditional macro base station delivering comparable coverage would require several hundred watts of transmit power. The Nova 846 achieves kilometer-scale coverage at 40 W of radiated power. This efficiency, driven by improvements in PA design and the shift to higher-gain antennas at 3.5 GHz, makes solar-powered operation at a remote site feasible in a way it would not have been with previous-generation hardware.
 
 ---
 
@@ -804,7 +804,11 @@ The simulation was a valuable planning tool. It correctly identified Cooke's Pea
 
 ### VII.D Throughput Results
 
-[FILL IN: Include OpenSpeedTest download and upload results from May 2, if available. If no results were captured on deployment day, note this explicitly and state the plan to collect throughput measurements during the next visit. Based on the 20 MHz bandwidth, 4T4R MIMO, and LTE peak throughput estimates, theoretical peak DL is approximately 150 Mbps under ideal conditions; realistic throughput at typical RSRP values measured on May 2 would be substantially lower, but should comfortably exceed the 10 Mbps specification target at strong and good RSRP levels.]
+UE1: 60.3 Mbps up, 7.6 Mbps down, 33 ms ping
+UE2: 5.8 Mbps up, 0.334 Mbps down, 39 ms ping
+UE3: 72.9 Mbps up, 10.1 Mbps down, 33 ms ping
+     37.9 Mbps up, 1.8 Mbps down, 34 ms ping
+Throughput tests were conducted at a few key locations during the deployment. These tests were conducted using OpenSpeedTest on each UE phone, and measured the upload and download rates, as well as response time. A total of three speed tests were taken, with the best performance being 72.9 Mbps upload and 10.1 Mbps download. One response showed just 37.9 Mbps up, 1.8 Mbps down. Each Test showed around 35 ms ping. The better two of these results satisfy the desired requirements and expectations for the network, except for the one low end which was taken in a location with a worse reception for the network.
 
 ### VII.E Lessons Learned
 
