@@ -71,7 +71,7 @@ AJ Gregory
 - VIII. Conclusion
   - VIII.A What Was Achieved
   - VIII.B Significance
-  - VIII.C Future Work: The Shaping Plan
+  - VIII.C Future Work
 - IX. Bibliography
 - X. Appendices
   - Appendix A: ABET Analysis of Senior Project Design
@@ -804,10 +804,6 @@ The simulation was a valuable planning tool. It correctly identified Cooke's Pea
 
 ### VII.D Throughput Results
 
-UE1: 60.3 Mbps up, 7.6 Mbps down, 33 ms ping
-UE2: 5.8 Mbps up, 0.334 Mbps down, 39 ms ping
-UE3: 72.9 Mbps up, 10.1 Mbps down, 33 ms ping
-     37.9 Mbps up, 1.8 Mbps down, 34 ms ping
 Throughput tests were conducted at a few key locations during the deployment. These tests were conducted using OpenSpeedTest on each UE phone, and measured the upload and download rates, as well as response time. A total of three speed tests were taken, with the best performance being 72.9 Mbps upload and 10.1 Mbps download. One response showed just 37.9 Mbps up, 1.8 Mbps down. Each Test showed around 35 ms ping. The better two of these results satisfy the desired requirements and expectations for the network, except for the one low end which was taken in a location with a worse reception for the network.
 
 ### VII.E Lessons Learned
@@ -816,7 +812,7 @@ Five lessons from the development and deployment process are worth documenting s
 
 **1. Regulated power is essential for field eNodeB operation.**
 
-The power supply instability that caused radio resets during the initial bring-up was the most disruptive issue of the deployment. The Nova 846 reacts to power supply noise and voltage fluctuations with radio resets and MME disconnects. For a permanent installation, the power system must provide clean, stable DC within the radio's specified input voltage range. A solar-plus-battery system with a proper MPPT charge controller and a DC-DC regulator on the radio power input is the correct approach. For temporary deployments, using a regulated power supply or a UPS rather than a raw generator or battery connection directly prevents this failure mode.
+The power supply instability that caused radio resets during the initial bring-up was the most disruptive issue of the deployment. The Nova 846 reacts to power supply noise and voltage fluctuations with radio resets and MME disconnects. Because the initial deployment used a simple power supply with no further regulation of noise reduction, this issue presented itself on multiple occasions during the field test. For a permanent installation, the power system must provide clean, stable DC within the radio's specified input voltage range. A solar-plus-battery system with a proper MPPT charge controller and a DC-DC regulator on the radio power input is the correct approach. For temporary deployments, using a regulated power supply or a UPS rather than a raw generator or battery connection directly prevents this failure mode.
 
 **2. LGW mode was required because the Open5GS SGW user-plane path did not initialize correctly.**
 
@@ -824,7 +820,7 @@ The standard LTE user-plane path through Open5GS relies on the SGW creating a GT
 
 **3. GPS lock takes time; plan for it.**
 
-The Nova 846 requires GPS synchronization before TDD RF operation can proceed reliably. GPS acquisition from a cold start can take several minutes, depending on sky view and satellite geometry. If the deployment schedule is tight, powering the radio before beginning antenna and cable installation allows GPS acquisition to proceed in the background, so it is ready by the time the rest of setup is complete. Do not wait until all other setup is done to power the radio; GPS time is wasted time.
+The Nova 846 requires GPS synchronization before TDD RF operation can proceed reliably. GPS acquisition from a cold start can take several minutes, depending on sky view and satellite geometry. If the deployment schedule is tight, powering the radio before beginning antenna and cable installation allows GPS acquisition to proceed in the background, so it is ready by the time the rest of setup is complete. Do not wait until all other setup is done to power the radio; GPS time is wasted time. This issue also compounded the power supply issue, since it took several minutes for the radio to reboot and acquire GPS lock every time it reset due to the unreliable power supply.
 
 **4. Verify G-NetTrack is actively logging before starting a drive test route.**
 
@@ -850,13 +846,13 @@ All configuration details, including Open5GS parameters, eNodeB settings, SIM pr
 
 The significance of this deployment is not limited to the specific measurements collected on May 2. Private cellular networks at university field sites have value beyond any individual experiment or data set.
 
-The immediate practical value is that the network can now serve real users. Cal Poly's BRAE department encountered the problem of IoT gateways that could not register on commercial SIM cards because there is no usable commercial cellular coverage across most of the ranch. With this network running, those gateways can be provisioned with SIMs on PLMN 315-010 and connected immediately, without any commercial carrier involvement. Any IoT device with an LTE radio can be added to the network with a programmed SIM card and an APN profile. The barrier to connecting research instruments, environmental sensors, and monitoring cameras at the ranch is now a SIM card programming step, not a carrier infrastructure problem.
+The immediate practical value is that the network can now serve real users. Cal Poly's BRAE department encountered the problem of IoT gateways that could not register on commercial SIM cards because there is no usable commercial cellular coverage across most of the ranch. With this network running, those gateways can be provisioned with SIMs on PLMN 315-010 and connected immediately, without any commercial carrier involvement. Any IoT device with an LTE radio can be added to the network with a programmed SIM card and an APN profile.
 
 The broader significance is that this deployment demonstrates the accessibility of private cellular at the university scale. The total cost of the hardware used in this project, excluding the donated components, falls well within a typical university project budget. The software stack is free and open source. The spectrum is available without a license. The tools for simulation, drive testing, and network management are accessible to students with standard engineering training. This project provides a template that other Cal Poly field facilities, other universities with remote research sites, and rural organizations without commercial cellular coverage can follow.
 
 The project also contributes to Cal Poly's position in the ongoing policy discussion around CBRS. The "In Defense of CBRS" article that Jonathan Polly co-developed with Christopher Lupo and Cal Poly [3] argued for preserving the shared-spectrum framework that makes deployments like this possible. The Swanton network is a concrete example of exactly the kind of use case that article was defending.
 
-### VIII.C Future Work: The Shaping Plan
+### VIII.C Future Work
 
 The work described in this report is a foundation, not a finished product. The natural trajectory for this project runs across several years of continued student work, with each phase building on the last.
 
@@ -870,7 +866,7 @@ SAS registration should be completed for the permanent installation. Full SAS re
 
 **Years 2 to 3: Coverage Expansion and Network Maturity**
 
-The drive test data identified that a single radio at Cooke's Peak leaves approximately 71 percent of the measured routes without coverage. The terrain analysis in the eino.ai simulation points to the ranch valley floor as the area most in need of a second radio placement. A second eino.ai simulation, run with the first radio excluded, will identify the optimal location for a second radio and estimate what joint coverage the two-radio network would achieve.
+The drive test data identified that a single radio at Cooke's Peak leaves approximately 71 percent of the measured routes without coverage. The terrain analysis in the eino.ai simulation points to the ranch valley floor as the area most in need of a second radio placement. A second eino.ai simulation will identify the optimal location for a second radio and estimate what joint coverage the two-radio network would achieve.
 
 Before deploying a second TDD radio, a GPS-disciplined NTP timing server should be installed. Two TDD eNodeBs on the same frequency band must share precise frame timing; without synchronization, their transmit windows can overlap and cause self-interference. A GPS-disciplined oscillator or a timing server derived from GPS provides the sub-microsecond accuracy required for TDD synchronization across multiple sites.
 
