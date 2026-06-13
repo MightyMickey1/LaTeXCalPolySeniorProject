@@ -1924,13 +1924,13 @@ outdoor coastal environment.
 The primary constraints on the design are: terrain complexity and line-of-sight
 limitations from a single elevation point; the absence of reliable commercial
 internet at the deployment site (addressed through Starlink); the requirement for
-temporary, removable installation; a project budget of approximately \$5,000 for
+temporary, removable installation; a project budget of approximately \$500 for
 hardware not covered by donations; and the requirement that the network function
 with standard commercial smartphones requiring no special hardware modifications.
 
 \textbf{Economic}
 
-The total street value of the hardware used in this project is estimated at
+The total cost of the hardware used in this project is estimated at
 \textit{[FILL IN: sum from Table~\ref{tab:parts}]}. Donated hardware from
 Lawrence Berkeley National Laboratory, specifically the Nova~846 eNodeB and
 AW3376-E-F antenna, represents the largest cost items. The Open5GS core
@@ -2052,45 +2052,47 @@ requiring major hardware replacement.
     \begin{tabular}{p{0.22\linewidth}p{0.30\linewidth}p{0.16\linewidth}p{0.14\linewidth}}
         \toprule
         \textbf{Item} & \textbf{Description} & \textbf{Source}
-            & \textbf{Street Value} \\
+            & \textbf{MSRP} \\
         \midrule
         Baicells Nova 846 & Outdoor macro eNodeB, 8T8R, dual-carrier, Band 48
-            & Donated by LBNL & {[FILL IN]} \\
+            & Donated by LBNL & \textit{No MSRP} \\
         \addlinespace
         Alpha Wireless AW3376-E-F & 8-port sector antenna, Band 48, 15.5~dBi, 90°
             & Donated by LBNL & \$1,698.06 \\
         \addlinespace
         Baicells Nova 430i & Indoor eNodeB, Band 48, lab validation
-            & Purchased & {[FILL IN]} \\
+            & Donated by 5G Lab & \$1,749.00 \\
         \addlinespace
         Intel NUC & Small form factor PC, Ubuntu Server 22.04 host
             & Purchased & {[FILL IN]} \\
         \addlinespace
         Gialer SIM kit & USB SIM writer + GRSIMWrite software
-            & Purchased & {[FILL IN]} \\
+            & Purchased & \$60.99 \\
         \addlinespace
         Programmable SIM cards (3$\times$) & Blank LTE SIM cards
-            & Purchased & {[FILL IN]} \\
+            & Purchased & \$12.99 $\times$ 3 \\
         \addlinespace
         Private LAN router & Small router for 10.0.1.0/24 LAN
             & Purchased & {[FILL IN]} \\
         \addlinespace
         RF cables (4$\times$, N-male) & Coax connecting ANT0-3 to antenna
-            & Purchased & {[FILL IN]} \\
+            & Borrowed & {[FILL IN]} \\
         \addlinespace
         RF dummy loads (4$\times$) & N-type 50~$\Omega$, lab testing
-            & Purchased & {[FILL IN]} \\
+            & Borrowed & {[FILL IN]} \\
         \addlinespace
         GPS antenna & External GPS puck for Nova 846 TDD sync
-            & Purchased & {[FILL IN]} \\
+            & Purchased & \$17.98 \\
         \addlinespace
         Portable tripod mast & Telescoping mast for temporary mounting
-            & Purchased/borrowed & {[FILL IN]} \\
+            & Borrowed & {[FILL IN]} \\
         \addlinespace
         Starlink terminal & LEO internet backhaul at Swanton
             & Borrowed & \textasciitilde\$120/mo \\
         \midrule
-        \textbf{Total estimated street value} & & & \textbf{[FILL IN]} \\
+        \textbf{Total estimated MSRP} & & & \textbf{[FILL IN]} \\
+        \addlinespace
+        \textbf{Total actual student cost} & & & \textbf{[FILL IN]} \\
         \bottomrule
     \end{tabular}
     \label{tab:parts}
@@ -2113,7 +2115,7 @@ requiring major hardware replacement.
         Fall 2025   & eino.ai simulations, initial familiarization
                     & Nov.--Dec.\ 2025 \\
         \addlinespace
-        Winter 2026 & Nova 430i acquisition; initial power-on and network access
+        Winter 2026 & Nova 430i acquisition, initial power-on and network access
                     & Jan.\ 2026 \\
         \addlinespace
         Winter 2026 & Ubuntu Server, Docker, Open5G2GO installation
@@ -2325,8 +2327,24 @@ bytes.
     (used for Figures~9 and~10)
 \end{itemize}
 
-To regenerate the cleaned data: \texttt{cd} to \texttt{Test Phone Data/} and
-run \texttt{python3 clean\_drive\_test\_data.py}.
+\begin{table}[!ht]
+    \centering
+    \caption[Summary Statistics]{To regenerate the cleaned data: \texttt{cd}
+    to \texttt{Test Phone Data/} and run \texttt{python3 clean\_drive\_test\_data.py}.}
+    \vspace{0.5\baselineskip}
+    \begin{tabular}{lllll}
+        \toprule
+        \textbf{Session} & \textbf{Signal Rows} & \textbf{Gray Rows} & \textbf{Bogus Dropped} & \textbf{Out-of-Area Dropped} \\
+        \midrule
+        UE1 Session 1 (16:00) & 428 & 1277 & 18 & 0 \\
+        UE1 Session 2 (18:56) & 412 & 732 & 62 & 0 \\
+        UE2 Session 1 (15:57) & 432 & 1271 & 24 & 0 \\
+        UE2 Session 2 (18:56) & 383 & 800 & 46 & 0 \\
+        \textbf{Combined Total} & \textbf{1,655} & \textbf{4,080} & \textbf{150} & \textbf{0} \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:sum_stats}
+\end{table}
 
 % ---------- Appendix G ----------
 \appsubsection{Deployment Photographs}
