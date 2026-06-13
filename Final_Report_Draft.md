@@ -395,7 +395,7 @@ At the backhaul layer, a Starlink terminal at the deployment site provides inter
 
 The transmit power of the Nova 846 is 10 W per transmit channel. With four active ports in 4T4R configuration, the total radiated power is 40 W, or 46 dBm [5]. This power level is appropriate for an outdoor macro deployment and falls within the allowed transmit power for GAA CBRS operation.
 
-The AW3376-E-F is an 8-port beamforming panel antenna covering 3,400 to 3,800 MHz, which spans the full CBRS band and CBRS-adjacent bands [4]. Its key specifications for this deployment are:
+The AW3376-E-F is an 8-port beamformer panel antenna covering 3,400 to 3,800 MHz, which spans the full CBRS band and CBRS-adjacent bands [4]. Its key specifications for this deployment are:
 
 - Peak gain: 15.5 dBi (standard broadcast beam)
 - Azimuth beamwidth: 90 degrees
@@ -896,11 +896,11 @@ The Swanton Ranch private LTE network is a beginning.
 
 [3] C. Lupo, "In defense of CBRS — protecting American university innovation," *RCR Wireless News*, May 15, 2026. [Online]. Available: https://www.rcrwireless.com/20260515/network-infrastructure/defense-cbrs-us-uni-innovation. [Accessed: Jun. 2026].
 
-[4] Alpha Wireless, "AW3376-E-F: 8 Port Beamformer — B42, 43 and 48 — 90° eRET Datasheet," Rev. 09, Alpha Wireless, Aug. 5, 2022. [Online]. Available: https://alphawireless.com. **[INCOMPLETE: add direct product page URL]**
+[4] Alpha Wireless, "AW3376-E-F: 8 Port Beamformer — B42, 43 and 48 — 90° eRET Datasheet," Rev. 09, Alpha Wireless, Aug. 5, 2022. [Online]. Available: https://alphawireless.com/ds/AW3376-E-F.pdf.
 
 [5] Baicells Technologies, "Nova 846 eNodeB Installation Guide," Baicells Technologies, 2023. [Online]. Available: https://img.baicells.com//Upload/20230804/FILE/14245b78-9ae6-4ec3-a676-79e0029f1538.pdf. [Accessed: Jun. 2026].
 
-[6] Baicells Technologies, "Nova 430i eNodeB Installation Guide," Baicells Technologies. **[INCOMPLETE: add document URL from Baicells website]**
+[6] Baicells Technologies, "Nova 430i eNodeB Installation Guide," Baicells Technologies. https://baicells.com/download/Nova%20430i%20Install%20Guide.pdf.
 
 [7] Waveriders Collective, "Open5G2GO," GitHub, 2025. [Online]. Available: https://github.com/Waveriders-Collective/open5G2GO. [Accessed: Jun. 2026].
 
@@ -912,11 +912,11 @@ The Swanton Ranch private LTE network is a beginning.
 
 [11] M. Houtz, "Baicells Private LTE/5G Core," *Marko Does Wireless*, Mar. 24, 2025. [Online]. Available: https://markhoutz.com/2025/03/24/baicells-private-lte-5g-core/. [Accessed: Jun. 2026].
 
-[12] Hewlett Packard Enterprise, "CBRS LTE Technology for the Enterprise: The Radio," White Paper, Hewlett Packard Enterprise, **[FILL IN: year, approximately 2019-2021]**.
+[12] Hewlett Packard Enterprise, "CBRS LTE Technology for the Enterprise: The Radio," White Paper, Hewlett Packard Enterprise, 2020.
 
-[13] Hewlett Packard Enterprise, "CBRS LTE Technology for the Enterprise: Signaling and Control," White Paper, Hewlett Packard Enterprise, **[FILL IN: year]**.
+[13] Hewlett Packard Enterprise, "CBRS LTE Technology for the Enterprise: Signaling and Control," White Paper, Hewlett Packard Enterprise, 2020.
 
-[14] Hewlett Packard Enterprise, "CBRS LTE Technology for the Enterprise: Network Implementation and Design," White Paper, Hewlett Packard Enterprise, **[FILL IN: year]**.
+[14] Hewlett Packard Enterprise, "CBRS LTE Technology for the Enterprise: Network Implementation and Design," White Paper, Hewlett Packard Enterprise, 2020.
 
 [15] M. Houtz, "Private Cellular for Wi-Fi Engineers Deep Dive," workshop course materials, Wireless LAN Professionals Conference (WLPC) Phoenix 2026, Phoenix, AZ, Feb. 2026.
 
@@ -934,7 +934,7 @@ The primary function of this system is to provide private 4G LTE cellular connec
 
 **Primary Constraints**
 
-The primary constraints on the design are: terrain complexity and line-of-sight limitations from a single elevation point; the absence of reliable commercial internet at the deployment site (addressed through Starlink); the requirement for temporary, removable installation; a project budget of approximately 5,000 dollars for hardware not covered by donations; and the requirement that the network function with standard commercial smartphones requiring no special hardware modifications.
+The primary constraints on the design are: terrain complexity and line-of-sight limitations from a single elevation point; the absence of reliable commercial internet at the deployment site (addressed through Starlink); the requirement for temporary, removable installation; a project budget of approximately 500 dollars for hardware not covered by donations; and the requirement that the network function with standard commercial smartphones requiring no special hardware modifications.
 
 **Economic**
 
@@ -1007,21 +1007,22 @@ The 5-year service life specification reflects the expectation that the permanen
 **TABLE C-I**
 **PARTS LIST AND COSTS**
 
-| Item | Description | Source | Street Value |
+| Item | Description | Source | MSRP |
 |------|-------------|--------|-------------|
-| Baicells Nova 846 | Outdoor macro eNodeB, 8T8R, dual-carrier, Band 48 | Donated by Lawrence Berkeley National Laboratory | [FILL IN: current street value from baicells.com] |
+| Baicells Nova 846 | Outdoor macro eNodeB, 8T8R, dual-carrier, Band 48 | Donated by Lawrence Berkeley National Laboratory | *No MSRP* |
 | Alpha Wireless AW3376-E-F | 8-port sector antenna, Band 48, 15.5 dBi, 90° | Donated by Lawrence Berkeley National Laboratory | $1,698.06 |
-| Baicells Nova 430i | Indoor eNodeB, Band 48, used for lab validation | Purchased | [FILL IN: price paid or current street value] |
+| Baicells Nova 430i | Indoor eNodeB, Band 48, used for lab validation | Purchased | $1749.00 |
 | Intel NUC | Small form factor PC, Ubuntu Server 22.04 host | Purchased | [FILL IN: model and price] |
-| Gialer SIM programming kit | USB SIM writer + GRSIMWrite software | Purchased | [FILL IN: price] |
-| Programmable SIM cards (3x) | Blank LTE SIM cards for IMSI programming | Purchased | [FILL IN: price per card and total] |
+| Gialer SIM programming kit | USB SIM writer + GRSIMWrite software | Purchased | $60.99 |
+| Programmable SIM cards (3x) | Blank LTE SIM cards for IMSI programming | Purchased | $12.99 x 3 |
 | Private LAN router | Small router for 10.0.1.0/24 LAN | Purchased | [FILL IN: model and price] |
-| RF cables (4x, N-male to N-male) | Coax connecting ANT0-3 to antenna | Purchased | [FILL IN: price per cable and total] |
-| RF dummy loads (4x, N-type 50 ohm) | Used during lab testing for safe RF handling | Purchased | [FILL IN: price] |
-| GPS antenna | External GPS puck for Nova 846 TDD synchronization | Purchased | [FILL IN: price] |
-| Portable tripod mast | Telescoping mast for temporary antenna mounting | Purchased or borrowed | [FILL IN: source and price if purchased] |
+| RF cables (4x, N-male to N-male) | Coax connecting ANT0-3 to antenna | Borrowed | [FILL IN: price per cable and total] |
+| RF dummy loads (4x, N-type 50 ohm) | Used during lab testing for safe RF handling | Borrowed | [FILL IN: price] |
+| GPS antenna | External GPS puck for Nova 846 TDD synchronization | Purchased | $17.98 |
+| Portable tripod mast | Telescoping mast for temporary antenna mounting | Borrowed | [FILL IN: source and price if purchased] |
 | Starlink terminal | LEO internet backhaul at Swanton | Borrowed for deployment day | Service: ~$120/month if owned |
-| **Total estimated street value** | | | **[FILL IN: sum]** |
+| **Total estimated MSRP** | | | **[FILL IN: sum]** |
+| **Total actual student project cost** | | | **[FILL IN: sum minus donated costs]** |
 
 *Note: Donated hardware (Nova 846 and AW3376-E-F) was provided by Lawrence Berkeley National Laboratory and represents equipment that would not normally be in a student project budget. The total cost of non-donated components represents the actual team expenditure.*
 
@@ -1035,7 +1036,7 @@ The project ran from Fall 2025 through Spring 2026. Key milestones:
 |-------|----------|-------|
 | Fall 2025 | Initial research, advisor meetings, technology selection | September - November 2025 |
 | Fall 2025 | eino.ai simulations, initial eino.ai familiarization | November - December 2025 |
-| Winter 2026 | Nova 430i acquisition; initial power-on and network access | January 2026 |
+| Winter 2026 | Nova 430i acquisition, initial power-on and network access | January 2026 |
 | Winter 2026 | Ubuntu Server, Docker, Open5G2GO installation | January - February 2026 |
 | Winter 2026 | WLPC Phoenix 2026 course materials review | February 2026 |
 | Winter 2026 | SIM programming, Nova 430i lab configuration | February - March 2026 |
@@ -1128,7 +1129,7 @@ This appendix provides a quick-reference summary of all configuration values for
 | PHONE-20 | 315010000000020 | 10.48.99.20 | [lab key] | [lab key] |
 | PHONE-30 | 315010000000030 | 10.48.99.30 | [lab key] | [lab key] |
 
-*Note: The Ki and OPc values used in this project are all-ones (32 hexadecimal ones) for lab simplicity. Do not use these values in a production deployment where security matters. Generate unique random 256-bit keys for each SIM in a production network.*
+*Note: The Ki and OPc values used in this project are all-ones (32 hexadecimal ones) for lab simplicity. Do not use these values in a production deployment where security matters. Unique random 256-bit keys for each SIM must be generated for a production network.*
 
 ---
 
@@ -1161,11 +1162,11 @@ This appendix provides a quick-reference summary of all configuration values for
 
 | Session | Signal rows | Gray rows | Bogus dropped | Out-of-area dropped |
 |---------|-------------|-----------|---------------|---------------------|
-| UE1 Session 1 (16:00) | [from script output] | [from script output] | [from script output] | [from script output] |
-| UE1 Session 2 (18:56) | [from script output] | [from script output] | [from script output] | [from script output] |
-| UE3 Session 1 (15:57) | [from script output] | [from script output] | [from script output] | [from script output] |
-| UE3 Session 2 (18:56) | [from script output] | [from script output] | [from script output] | [from script output] |
-| **Combined total** | **1,655** | **4,080** | | |
+| UE1 Session 1 (16:00) | 428 | 1277 | 18 | 0 |
+| UE1 Session 2 (18:56) | 412 | 732 | 62 | 0 |
+| UE3 Session 1 (15:57) | 432 | 1271 | 24 | 0 |
+| UE3 Session 2 (18:56) | 383 | 800 | 46 | 0 |
+| **Combined total** | **1,655** | **4,080** | **150** | **0** |
 
 *To regenerate the cleaned data: cd to Test Phone Data/ and run `python3 clean_drive_test_data.py`.*
 
