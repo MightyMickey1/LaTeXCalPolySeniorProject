@@ -88,6 +88,8 @@
 \usepackage{enumitem}
 \usepackage{tabularx}
 \usepackage{multirow}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, fit, backgrounds}
 
 \begin{document}
 
@@ -449,17 +451,10 @@ private deployment economically viable.
 
 \begin{figure}[!ht]
     \centering
-    \fbox{%
-        \parbox[c][2.5in][c]{0.90\linewidth}{%
-            \centering
-            \textbf{CBRS Three-Tier Spectrum Access Framework}\par
-            \vspace{0.5em}
-            \textit{Replace with CBRS three-tier framework diagram.}%
-        }%
-    }
+    \includegraphics[max width=\linewidth]{Images/what-is-CBRS-architecture.png}
     \caption[CBRS three-tier spectrum access framework]{CBRS three-tier
     spectrum access framework: Incumbents (Tier~1), Priority Access Licenses
-    (Tier~2), and General Authorized Access (Tier~3).}
+    (Tier~2), and General Authorized Access (Tier~3) \autocite{gieske2024cbrs}.}
     \label{fig:cbrs_tiers}
 \end{figure}
 
@@ -617,7 +612,7 @@ useful for decrypting future ones. This security architecture is relevant to the
 Swanton use case because the ranch network would eventually carry sensitive
 research data and potentially safety-critical communications.
 
-\subsection{RF Propagation Simulation and Tool Democratization}
+\subsection{RF Propagation Simulation Tool Accessibility}
 
 RF propagation simulation allows network designers to model signal coverage
 before deploying hardware in the field. For a site like Swanton Ranch, where
@@ -633,20 +628,17 @@ georeferenced RSRP heatmap that can be exported as a KMZ file and layered over
 satellite or topographic base maps in Google Earth.
 
 What makes eino.ai notable in this context is the cost relative to its
-predecessors. Ten years ago, ray-tracing RF simulation capable of the fidelity
+predecessors. Previously, ray-tracing RF simulation capable of the fidelity
 eino.ai provides required a dedicated workstation running specialized thick-client
-software that cost on the order of \$50,000. That kind of tool was available
+software that was prohibitively expensive. That kind of tool was available
 only to large telecom engineering firms and carriers. Today, eino.ai delivers
-equivalent capability through a web browser for approximately \$1,000. The shift
+equivalent capability through a web browser at a much more accessible cost. The shift
 from dedicated workstation to cloud platform, enabled by GPU compute becoming
 widely available through cloud providers, has put professional-grade propagation
 simulation within reach of a university project.
 
 This cost compression in simulation tools mirrors the cost compression in
-hardware and spectrum access described in Section~I.A. The same structural shift
-that brought the eNodeB hardware cost from hundreds of thousands of dollars to
-thousands, and spectrum access from hundreds of millions to zero, has brought
-simulation tools from tens of thousands of dollars to thousands. All three
+hardware and spectrum access described in Section~I.A. All three
 components are now accessible to the same class of user: an organization with a
 small budget, technical staff who understand the tools, and a genuine need for
 the capability.
@@ -901,23 +893,6 @@ recovering from a major fire.
 \subsection{System Architecture}
 
 Figure~\ref{fig:sysarch} shows the complete system block diagram.
-
-\begin{figure}[!ht]
-    \centering
-    \fbox{%
-        \parbox[c][2.5in][c]{0.90\linewidth}{%
-            \centering
-            \textbf{System Architecture Block Diagram}\par
-            \vspace{0.5em}
-            \textit{Replace with system block diagram.}%
-        }%
-    }
-    \caption[System architecture block diagram]{Complete system architecture
-    block diagram showing UE, eNodeB, LAN, core network, and Starlink
-    backhaul layers.}
-    \label{fig:sysarch}
-\end{figure}
-
 The physical topology at Swanton Ranch has five layers. At the user device
 layer, Android phones configured with APN profiles and loaded with provisioned
 SIM cards connect to the eNodeB over the LTE air interface at 3.655~GHz. At the
@@ -925,6 +900,70 @@ radio layer, the Baicells Nova 846 eNodeB receives the LTE uplink from UEs,
 processes the radio frames, and communicates with the core network over Ethernet
 via the S1 interface. The radio is physically mounted on a portable tripod mast
 at Cooke's Peak with the AW3376-E-F sector antenna.
+
+\begin{figure}[!ht]
+    \centering
+    % scale=0.7 + transform shape scales coordinates AND text uniformly.
+    % Coordinates are in pre-scale cm; rendered width = 20.8 cm x 0.7 = 14.56 cm.
+    \begin{tikzpicture}[x=1cm, y=1cm, scale=0.7, transform shape, >=Stealth,
+        box/.style={draw, rectangle, rounded corners=3pt, align=center,
+                    inner sep=5pt, minimum width=2.5cm, minimum height=0.9cm},
+        grp/.style={draw, dashed, thick, rectangle, rounded corners=6pt,
+                    inner sep=9pt},
+        arr/.style={->, semithick},
+        biarr/.style={<->, semithick},
+        rf/.style={->, semithick, dashed},
+        lbl/.style={fill=white, inner sep=2pt, text centered}
+    ]
+    % --- User Equipment ---
+    \node[box] (ue1) at (0, 2.2) {Android UE 1\\PHONE-10};
+    \node[box] (ue2) at (0, 0.0) {Android UE 2\\PHONE-20};
+    \node[box] (ue3) at (0, -2.2) {Android UE 3\\PHONE-30};
+    % --- eNodeB ---
+    \node[box, minimum height=6.2cm, minimum width=3.0cm] (enb) at (5.0, 0)
+        {Baicells\\Nova~846\\eNodeB\\[4pt]
+         \rule{2.2cm}{0.3pt}\\[3pt]
+         AW3376-E-F\\Sector Antenna\\
+         4T4R $\cdot$ Band~48};
+    % --- LAN: Private Router ---
+    \node[box, minimum width=3.0cm] (router) at (11.0, 1.5)
+        {Private Router\\10.0.1.0/24};
+    % --- LAN: Intel NUC / Open5GS ---
+    \node[box, minimum width=3.0cm] (nuc) at (11.0, -1.5)
+        {Intel NUC\\\textit{Open5GS}\\10.0.1.4\\MME $\cdot$ HSS $\cdot$ PGW};
+    % --- LAN grouping ---
+    \begin{scope}[on background layer]
+        \node[grp, fit=(router)(nuc)] (lan) {};
+    \end{scope}
+    \node[anchor=south] at ([yshift=5pt]lan.north) {LAN: 10.0.1.0/24};
+    % --- Starlink ---
+    \node[box, minimum width=2.5cm] (sl) at (15.5, 1.5) {Starlink\\Terminal};
+    % --- Internet ---
+    \node[box, minimum width=2.5cm] (inet) at (18.3, 1.5) {Internet};
+    % --- RF arrows (dashed = wireless) ---
+    \draw[rf] (ue1.east) -- (enb.west |- ue1.east);
+    \draw[rf] (ue2.east) -- node[lbl, above] {LTE RF} (enb.west);
+    \draw[rf] (ue3.east) -- (enb.west |- ue3.east);
+    % --- eNodeB to Router (S1 / Ethernet) ---
+    \draw[arr] (enb.east |- router.west) -- (router.west)
+        node[inner sep=2pt, above, pos=0.5] {S1 / Ethernet};
+    % --- eNodeB to NUC (S1AP control plane) ---
+    \draw[arr] (enb.east |- nuc.west) -- (nuc.west)
+        node[inner sep=2pt, below, pos=0.5] {S1AP/SCTP};
+    % --- Router to NUC (LAN) ---
+    \draw[biarr] (router.south) -- (nuc.north);
+    % --- Router to Starlink (WAN backhaul) ---
+    \draw[arr] (router.east) -- node[lbl, above] {WAN} (sl.west);
+    % --- Starlink to Internet ---
+    \draw[arr] (sl.east) -- (inet.west);
+    \end{tikzpicture}
+    \caption[System architecture block diagram]{Complete system architecture
+    block diagram showing UE, eNodeB, LAN, core network, and Starlink
+    backhaul layers. Dashed arrows indicate the wireless LTE air interface
+    (Band~48, 3.655~GHz, PLMN 315-010); solid arrows indicate wired
+    Ethernet connections.}
+    \label{fig:sysarch}
+\end{figure}
 
 At the LAN layer, the eNodeB connects via Ethernet to a small private router
 running the 10.0.1.0/24 subnet. The Intel NUC running Open5GS is also on this
@@ -1067,7 +1106,7 @@ Table~\ref{tab:simsettings} summarizes the simulation parameters.
     \caption[eino.ai simulation parameters]{eino.ai simulation parameters
     compared to actual deployment values.}
     \vspace{0.5\baselineskip}
-    \begin{tabular}{p{0.30\linewidth}p{0.30\linewidth}p{0.28\linewidth}}
+    \begin{tabularx}{\linewidth}{p{0.30\linewidth}p{0.22\linewidth}X}
         \toprule
         \textbf{Parameter} & \textbf{Simulation Value}
             & \textbf{Actual Deployment Value} \\
@@ -1098,7 +1137,7 @@ Table~\ref{tab:simsettings} summarizes the simulation parameters.
         \addlinespace
         Height above ground & 4.6~m (15~ft) & 4.6~m (15~ft) \\
         \bottomrule
-    \end{tabular}
+    \end{tabularx}
     \label{tab:simsettings}
 \end{table}
 
@@ -1210,8 +1249,8 @@ test across the ranch. G-NetTrack logged RSRP, GPS coordinates, serving network
 operator, and network technology at approximately ten-second intervals. Data was
 collected across two separate route segments throughout the afternoon.
 
-\textbf{Data processing:} A Python script (\texttt{clean\_drive\_test\_data.py})
-filtered the raw logs to retain only rows where the serving operator was
+\textbf{Data processing:} A Python script filtered the raw logs to retain only
+rows where the serving operator was
 ``Swanton\_Ranch,'' where RSRP was between $-130$ and $-50$~dBm (valid LTE
 range), and where the GPS coordinates fell within the ranch bounding box.
 No-coverage points (rows where the operator was \texttt{NO\_COVERAGE}, T-Mobile,
@@ -1243,8 +1282,14 @@ Table~\ref{tab:fmea} shows the FMEA for key system components.
     \caption[Failure mode and effects analysis]{Failure mode and effects
     analysis (FMEA) for key system components.}
     \vspace{0.5\baselineskip}
-    \begin{tabular}{p{0.14\linewidth}p{0.14\linewidth}p{0.14\linewidth}
-                    p{0.08\linewidth}p{0.09\linewidth}p{0.20\linewidth}}
+    {\small
+    \begin{tabularx}{\linewidth}{%
+        >{\raggedright\arraybackslash}p{0.14\linewidth}
+        >{\raggedright\arraybackslash}p{0.14\linewidth}
+        >{\raggedright\arraybackslash}X
+        >{\raggedright\arraybackslash}p{0.09\linewidth}
+        >{\raggedright\arraybackslash}p{0.09\linewidth}
+        >{\raggedright\arraybackslash}X}
         \toprule
         \textbf{Component} & \textbf{Failure Mode} & \textbf{Effect}
             & \textbf{Severity} & \textbf{Prob.} & \textbf{Mitigation} \\
@@ -1289,7 +1334,7 @@ Table~\ref{tab:fmea} shows the FMEA for key system components.
             & All systems down & High & Low
             & Monitor fuel; solar/battery for permanent install \\
         \bottomrule
-    \end{tabular}
+    \end{tabularx}}
     \label{tab:fmea}
 \end{table}
 
@@ -1589,7 +1634,7 @@ The Nova~846 was powered via its dedicated 48~V DC power supply input and
 allowed several minutes to acquire GPS sync. Once the web UI showed GPS Sync
 Status: Synchronized and MME Status: Connected, RF was enabled.
 
-\textbf{Power supply issue:} Shortly after initial RF enable, the radio began
+Shortly after initial RF enable, the radio began
 cycling on and off. The web UI showed intermittent MME disconnects corresponding
 to the radio resets. Investigation found that the power supply connection to the
 radio was unstable. After correcting the power connection and securing it firmly,
@@ -1605,7 +1650,7 @@ post-deployment data review.
 \subsection{Coverage Measurement Results}
 
 The raw G-NetTrack logs from all sessions were processed by
-\texttt{clean\_drive\_test\_data.py}. The script retained only
+a Python script. The script retained only
 \textit{Swanton\_Ranch}-operator rows within the valid RSRP range and the
 geographic bounding box, and collected no-coverage reference points. The
 combined output, \texttt{ALL\_combined\_rxlev.kml}, contains the data visualized
@@ -1616,7 +1661,7 @@ the USGS topographic base map \autocite{usgs2026topo}. Colored dots represent
 \textit{Swanton\_Ranch} signal, graded by strength. Gray dots represent
 locations where data was collected but the phone was either on a commercial
 network or showing no coverage. The route extends approximately 4~km
-north-south and 1.9~km east-west.
+north-south and 2~km east-west.
 
 \begin{figure}[!ht]
     \centering
@@ -1709,7 +1754,7 @@ combines recovering scrub, standing dead conifer from the 2020 fire, live
 coastal Douglas-fir, and maritime fog conditions. The deployment day on May~2
 was overcast, and some degree of atmospheric attenuation was likely present.
 
-\textbf{Key conclusion:}
+\textbf{Conclusion:}
 
 The simulation was a valuable planning tool. It correctly identified Cooke's
 Peak as the best deployment site, correctly predicted the coverage direction and
@@ -1734,7 +1779,7 @@ worse reception.
 
 \subsection{Lessons Learned}
 
-Five lessons from the development and deployment process are worth documenting
+Three lessons from the development and deployment process are worth documenting
 specifically, because each one is a potential failure mode for the next team.
 
 \textbf{1. Regulated power is essential for field eNodeB operation.}
@@ -1749,19 +1794,7 @@ provide clean, stable DC within the radio's specified input voltage range. A sol
 proper MPPT charge controller and a DC-DC regulator on the radio power input is
 the correct approach.
 
-\textbf{2. LGW mode was required because the Open5GS SGW user-plane path did
-not initialize correctly.}
-
-The standard LTE user-plane path through Open5GS relies on the SGW creating a
-GTP-U tunnel interface (\texttt{ogstun}) that appears as a virtual network
-interface on the Linux host. In this project's configuration, that interface did
-not appear, and user traffic from attached phones had no route to the internet.
-Switching to Baicells LGW NAT mode resolved the data path problem. The root
-cause was not fully diagnosed. For a production deployment, understanding and
-resolving this issue is worthwhile because LGW mode bypasses Open5GS's traffic
-management and visibility functions.
-
-\textbf{3. GPS lock takes time; plan for it.}
+\textbf{2. GPS lock takes time; plan for it.}
 
 The Nova~846 requires GPS synchronization before TDD RF operation can proceed
 reliably. GPS acquisition from a cold start can take several minutes. If the
@@ -1771,7 +1804,7 @@ issue also compounded the power supply issue, since it took several minutes for
 the radio to reboot and acquire GPS lock every time it reset due to the
 unreliable power supply.
 
-\textbf{4. Verify G-NetTrack is actively logging before starting a drive test
+\textbf{3. Verify G-NetTrack is actively logging before starting a drive test
 route.}
 
 UE~2 produced zero bytes of log data. The phone appeared to be running
@@ -1779,15 +1812,6 @@ G-NetTrack during the test but was not writing to the log file. This was not
 detected until the post-deployment data review. Before starting any drive test
 route, confirm that the log file is being written by checking file size growth
 in the G-NetTrack log directory.
-
-\textbf{5. Single-carrier 4T4R used; 8T8R dual-carrier is available as a future
-upgrade.}
-
-The Nova~846 supports two independent carriers with full 8T8R operation when
-both ANT0--3 and ANT4--7 are connected to the antenna. Moving to dual-carrier
-would double the available spectrum (two 20~MHz carriers) and potentially double
-throughput capacity. The AW3376-E-F has all eight ports available, so this
-upgrade path requires no new hardware.
 
 % =============================================================================
 \section{Conclusion}
@@ -1892,8 +1916,6 @@ The model developed at Swanton Ranch is replicable. Cal Poly operates several
 other remote field facilities with similar communication challenges. The
 experience and documentation from this project could be adapted for those sites
 with minimal additional effort.
-
-The Swanton Ranch private LTE network is a beginning.
 
 % =============================================================================
 % Bibliography
@@ -2055,44 +2077,35 @@ requiring major hardware replacement.
             & \textbf{MSRP} \\
         \midrule
         Baicells Nova 846 & Outdoor macro eNodeB, 8T8R, dual-carrier, Band 48
-            & Donated by LBNL & \textit{No MSRP} \\
+            & Donated by LBNL & $\sim$\$2,000.00 \\
         \addlinespace
         Alpha Wireless AW3376-E-F & 8-port sector antenna, Band 48, 15.5~dBi, 90°
             & Donated by LBNL & \$1,698.06 \\
         \addlinespace
         Baicells Nova 430i & Indoor eNodeB, Band 48, lab validation
-            & Donated by 5G Lab & \$1,749.00 \\
+            & Borrowed from 5G Lab & \$1,749.00 \\
         \addlinespace
-        Intel NUC & Small form factor PC, Ubuntu Server 22.04 host
-            & Purchased & {[FILL IN]} \\
+        Intel NUC 7 i5BNK & Small form factor PC, Ubuntu Server 22.04 host
+            & Borrowed & {\$489.99} \\
         \addlinespace
         Gialer SIM kit & USB SIM writer + GRSIMWrite software
             & Purchased & \$60.99 \\
         \addlinespace
         Programmable SIM cards (3$\times$) & Blank LTE SIM cards
-            & Purchased & \$12.99 $\times$ 3 \\
+            & Purchased & \$12.99 \\
         \addlinespace
-        Private LAN router & Small router for 10.0.1.0/24 LAN
-            & Purchased & {[FILL IN]} \\
-        \addlinespace
-        RF cables (4$\times$, N-male) & Coax connecting ANT0-3 to antenna
-            & Borrowed & {[FILL IN]} \\
-        \addlinespace
-        RF dummy loads (4$\times$) & N-type 50~$\Omega$, lab testing
-            & Borrowed & {[FILL IN]} \\
+        Private LAN router (Apple AirPort Extreme) & Small router for 10.0.1.0/24 LAN
+            & Borrowed & $\sim$\$35.00 \\
         \addlinespace
         GPS antenna & External GPS puck for Nova 846 TDD sync
             & Purchased & \$17.98 \\
         \addlinespace
-        Portable tripod mast & Telescoping mast for temporary mounting
-            & Borrowed & {[FILL IN]} \\
-        \addlinespace
         Starlink terminal & LEO internet backhaul at Swanton
             & Borrowed & \textasciitilde\$120/mo \\
         \midrule
-        \textbf{Total estimated MSRP} & & & \textbf{[FILL IN]} \\
+        \textbf{Total estimated MSRP} & & & \textbf{\$6,184.01} \\
         \addlinespace
-        \textbf{Total actual student cost} & & & \textbf{[FILL IN]} \\
+        \textbf{Total student cost} & & & \textbf{\$91.96} \\
         \bottomrule
     \end{tabular}
     \label{tab:parts}
@@ -2290,47 +2303,11 @@ Open5G2GO documentation before deploying.
 % ---------- Appendix F ----------
 \appsubsection{Drive Test Data Processing}
 
-\textbf{Script:} \texttt{Test Phone Data/clean\_drive\_test\_data.py}
-
-\textbf{Purpose:} Process raw G-NetTrack Lite log files from the May~2, 2026
-Swanton Ranch deployment into clean KML files suitable for visualization and
-analysis.
-
-\textbf{Inputs:} Raw G-NetTrack log files from UE~1 and UE~3 (four total: two
-sessions per UE). UE~2 data was excluded because all session files were zero
-bytes.
-
-\textbf{Processing steps:}
-
-\begin{enumerate}
-    \item Iterate over all session directories for UE~1 and UE~3
-    \item For each row in the log file: check that GPS coordinates are within
-    the ranch bounding box (37.00 to 37.10~N, 122.10 to 122.35~W); rows outside
-    this box are from driving to and from the ranch and are excluded
-    \item Rows where Operatorname is ``Swanton\_Ranch'': check that the Level
-    (RSRP) value is a valid integer between $-130$ and $-50$~dBm; valid rows are
-    written to the cleaned output and to the signal KML layer
-    \item Rows where Operatorname is in the set (NO\_COVERAGE, T-Mobile, AT\&T,
-    Verizon): written to the no-coverage (gray) KML layer
-    \item All other rows (blank operators, integer overflow values, etc.):
-    dropped
-\end{enumerate}
-
-\textbf{Output files} (in \texttt{Test Phone Data/Cleaned/}):
-\begin{itemize}
-    \item \texttt{UE1\_Swanton\_Ranch\_2026.05.02\_16.00.11\_cleaned.txt}
-    \item \texttt{UE1\_Swanton\_Ranch\_2026.05.02\_18.56.06\_cleaned.txt}
-    \item \texttt{UE3\_Swanton\_Ranch\_2026.05.02\_15.57.33\_cleaned.txt}
-    \item \texttt{UE3\_Swanton\_Ranch\_2026.05.02\_18.56.06\_cleaned.txt}
-    \item Matching \texttt{\_cleaned\_rxlev.kml} files for each session
-    \item \texttt{ALL\_combined\_rxlev.kml} --- Combined all UEs, all sessions
-    (used for Figures~9 and~10)
-\end{itemize}
+[PLACEHOLDER TEXT SINCE THIS APPENDIX WILL BE REMOVED]
 
 \begin{table}[!ht]
     \centering
-    \caption[Summary Statistics]{To regenerate the cleaned data: \texttt{cd}
-    to \texttt{Test Phone Data/} and run \texttt{python3 clean\_drive\_test\_data.py}.}
+    \caption[Summary Statistics]{Summary statistics for data points captured.}
     \vspace{0.5\baselineskip}
     \begin{tabular}{lllll}
         \toprule
@@ -2345,29 +2322,5 @@ bytes.
     \end{tabular}
     \label{tab:sum_stats}
 \end{table}
-
-% ---------- Appendix G ----------
-\appsubsection{Deployment Photographs}
-
-The following photographs document the May~2, 2026 deployment at Swanton Pacific
-Ranch, Cooke's Peak. All photos are available in the \texttt{Photos from
-deployment/} folder in the project repository.
-
-\textbf{Photo~1} (\texttt{IMG\_3314.jpeg}): Baicells Nova~846 eNodeB with Alpha
-Wireless AW3376-E-F sector antenna mounted on portable tripod mast at Cooke's
-Peak. Four RF cables visible connecting ANT0 through ANT3 to the antenna. The
-antenna face is oriented 120~degrees azimuth (SSE) toward the ranch valley.
-
-\textbf{Photo~2} (\texttt{IMG\_3588.jpeg}): Alternate view of the Nova~846 and
-AW3376-E-F sector antenna on the tripod mast at Cooke's Peak.
-
-\textbf{Photos~3 through~8} (\texttt{IMG\_3324}, \texttt{IMG\_3591},
-\texttt{IMG\_3592}, \texttt{IMG\_3593}, \texttt{IMG\_4477}, \texttt{IMG\_4482},
-\texttt{IMG\_4485}): Additional deployment documentation photos.
-
-\textbf{Photo~9} (\texttt{Nova 430i Test set up.png}): Indoor lab bench setup
-during the development phase. Baicells Nova~430i (white box, left), Intel NUC
-running Open5GS (center), private LAN router (right), and UE~1 visible in
-front.
 
 \end{document}
